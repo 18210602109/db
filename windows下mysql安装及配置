@@ -1,0 +1,9 @@
+1、下载mysql ZIP安装包
+2、配置mysql目录下bin目录的环境变量
+3、mysql服务注册：mysqld --install，回车，提示：Service successfully installed。表示安装MySQL服务成功
+4、启动mysql服务：net start mysql，如果提示mysql服务无法启动，则执行第五步
+5、删除mysql下的data文件，重新执行 mysqld --initialize 就可以在当前路径下生成data文件夹，再执行net start mysql 就可以启动mysql。
+
+
+快速以管理员身份打开DOS：
+    用管理员身份打开DOS命令窗口：在当前文件夹下bin下，先按住Shift+单击鼠标右键以管理员身份运行Dos窗口就可以。
