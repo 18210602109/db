@@ -1,8 +1,52 @@
-1、下载mysql ZIP安装包
-2、配置mysql目录下bin目录的环境变量
-3、mysql服务注册：mysqld --install，回车，提示：Service successfully installed。表示安装MySQL服务成功
-4、启动mysql服务：net start mysql，如果提示mysql服务无法启动，则执行第五步
-5、删除mysql下的data文件，重新执行 mysqld --initialize 就可以在当前路径下生成data文件夹，再执行net start mysql 就可以启动mysql。
+1. 解压缩至相应目录，并配置环境变量（将*\bin添加进path中）；
+
+2. （重要）在根目录新建my.ini文件，写入以下内容：
+        [mysql]  
+        # 设置mysql客户端默认字符集  
+        default-character-set=utf8  
+        [mysqld]  
+        # 设置3306端口  
+        port = 3306   
+        # 设置mysql的安装目录  
+        basedir=D:\Database\MySQL Server 5.7  
+        # 设置mysql数据库的数据的存放目录  
+        datadir=D:\Database\MySQL Server 5.7\data  
+        # 允许最大连接数  
+        max_connections=200  
+        # 服务端使用的字符集默认为8比特编码的latin1字符集  
+        character-set-server=utf8  
+        # 创建新表时将使用的默认存储引擎  
+        default-storage-engine=INNODB   
+        # 跳过密码验证  
+        #skip-grant-tables  
+3. 运行cmd（切记要用管理员身份）；
+4. （重要）执行命令mysqld --initialize
+
+## 该步骤非常重要，因为之前的版本直接执行install命令便可安装服务，5.7之后需要初始化生成数据库文件（根目录下的data文件），否则后续无法启动服务；
+
+5. 执行命令mysqld install，安装服务；
+
+6. 执行命令net start mysql，启动服务；（停止服务net stop mysql）
+
+7. 执行命令mysql -uroot -p，会报错ERROR 1045(28000)，需要设置登录密码；
+
+8. 打开配置文件my.ini，将skip-grant-tables前面的#去掉，然后重启服务，再次登录就可略过密码；
+
+9. 进入mysql数据库，依次执行以下命令：
+
+    use mysql;
+
+    update user set authentication_string=password("root") where user="root";
+
+    flush privileges;
+
+    quit;
+
+10. 打开配置文件my.ini，在skip-grant-tables前面加上#注释掉，然后重启服务，使用设置的密码再次登录；
+
+11. 输入命令show databases，报错ERROR 1820 (HY000)；
+
+12. 修改一次密码set password=password("root");
 
 
 快速以管理员身份打开DOS：
